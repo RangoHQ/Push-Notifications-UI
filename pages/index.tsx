@@ -1,41 +1,69 @@
 import type { NextPage } from "next";
-import { Grid, Spacer, Button, Input, Text, Textarea } from "@nextui-org/react";
+import {
+  Container,
+  Grid,
+  Row,
+  Spacer,
+  Button,
+  Input,
+  Text,
+  Textarea,
+} from "@nextui-org/react";
+
+//Layout
+import Footer from "../layout/Footer";
+
+//Utils
+import { useMediaQuery } from "../utils/useMediaQuery";
 
 const Home: NextPage = () => {
+  const isMd = useMediaQuery(768);
+
   return (
-    <Grid.Container
-      css={{ height: "100vh" }}
-      justify="center"
-      alignItems="center"
-      direction="column"
-    >
-      <Text
-        h2
-        css={{
-          textGradient: "45deg, $yellow500 -20%, $red500 100%",
-        }}
+    <Container>
+      <Grid.Container
+        css={{ height: "100vh" }}
+        justify="center"
+        direction="column"
       >
-        Kluu - Push Notifications
-      </Text>
-      <Spacer y={2} />
-      <form>
-        <Grid.Container justify="center" direction="column">
-          <Input
-            clearable
-            bordered
-            label="Titulo"
-            labelPlaceholder="Title"
-            color="primary"
-          />
-          <Spacer y={2} />
-          <Textarea bordered labelPlaceholder="Descripcion" color="primary" />
-        </Grid.Container>
+        <Text
+          h2
+          css={{
+            textGradient: "45deg, $blue500 -20%, $pink500 50%",
+          }}
+          weight="bold"
+        >
+          Kluu - Push Notifications
+        </Text>
         <Spacer y={2.5} />
-        <Button shadow color="gradient" rounded>
-          Enviar
-        </Button>
-      </form>
-    </Grid.Container>
+        <Container css={{ width: isMd ? "100%" : "624px" }}>
+          <form>
+            <Grid.Container justify="center" direction="column">
+              <Input
+                clearable
+                bordered
+                label="Titulo"
+                labelPlaceholder="Title"
+                color="primary"
+              />
+              <Spacer y={2} />
+              <Textarea
+                bordered
+                labelPlaceholder="Descripcion"
+                color="primary"
+              />
+            </Grid.Container>
+            <Spacer y={2.5} />
+            <Row justify="center">
+              <Button shadow size="lg" color="gradient" rounded>
+                Enviar
+              </Button>
+            </Row>
+          </form>
+        </Container>
+      </Grid.Container>
+      <Footer />
+    </Container>
   );
 };
 
