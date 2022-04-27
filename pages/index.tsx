@@ -11,38 +11,39 @@ import {
   Textarea,
   Loading,
 } from "@nextui-org/react";
+import axios from "axios";
 
 //Layout
 import Footer from "../layout/Footer";
 //Utils
 import { useMediaQuery } from "../utils/useMediaQuery";
 
-const NOTIFICATIONS_SERVER: string =
-  "https://kluu-push-notifications.herokuapp.com/message";
+const NOTIFICATIONS_SERVER = "http://localhost:8080/message";
 
 const Home: NextPage = () => {
   const isMd = useMediaQuery(768);
-  const [fields, setFields] = useState({ title: "", body: "" });
+  const [pnTitle, setPnTitle] = useState("");
+  const [pnMessage, setPnMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const handleFields = (e: any) =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
 
   const sendNotification = async (e: any) => {
     e.preventDefault();
-    const title = fields.title;
-    const body = fields.body;
-    if (title === "" || body === "") {
-      alert("title/body cannot be empty");
+
+    const title = pnTitle;
+    const body = pnMessage;
+    if (title === "" || pnMessage === "") {
+      alert("El título y el mensaje son obligatorios");
       return;
     }
 
     setLoading(true);
-    const req = await fetch(NOTIFICATIONS_SERVER, {
-      method: "POST",
-      body: JSON.stringify({ title, body }),
+    const req = await axios.post(NOTIFICATIONS_SERVER, {
+      title,
+      body,
     });
-    setFields({ title: "", body: "" });
+
+    setPnTitle("");
+    setPnMessage("");
     setLoading(false);
   };
 
@@ -62,7 +63,7 @@ const Home: NextPage = () => {
         >
           Kluu - Push Notifications
         </Text>
-        <Spacer y={2.5} />
+        <Spacer y={3} />
         <Container css={{ width: isMd ? "100%" : "624px" }}>
           <form onSubmit={sendNotification} id="PNform">
             <Grid.Container justify="center" direction="column">
@@ -70,18 +71,17 @@ const Home: NextPage = () => {
                 required
                 clearable
                 bordered
-                label="Titulo"
-                labelPlaceholder="Title"
+                labelPlaceholder="Titulo"
                 color="primary"
-                onChange={handleFields}
+                onChange={(e) => setPnTitle(e.target.value)}
               />
-              <Spacer y={2} />
+              <Spacer y={2.5} />
               <Textarea
                 required
                 bordered
-                labelPlaceholder="Descripcion"
+                labelPlaceholder="Mensaje"
                 color="primary"
-                onChange={handleFields}
+                onChange={(e) => setPnMessage(e.target.value)}
               />
             </Grid.Container>
             <Spacer y={2.5} />
@@ -90,7 +90,7 @@ const Home: NextPage = () => {
                 {loading ? (
                   <Loading type="points" color="currentColor" size="sm" />
                 ) : (
-                  <Text> Enviar Notificación</Text>
+                  <span>Enviar Notificación</span>
                 )}
               </Button>
             </Row>
