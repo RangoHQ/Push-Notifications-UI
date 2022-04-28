@@ -18,6 +18,8 @@ import Footer from "../layout/Footer";
 //Utils
 import { useMediaQuery } from "../utils/useMediaQuery";
 
+//"https://kluu-push-notifications.herokuapp.com/message"
+
 const NOTIFICATIONS_SERVER =
   "https://kluu-push-notifications.herokuapp.com/message";
 
