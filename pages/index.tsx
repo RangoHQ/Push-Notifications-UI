@@ -18,7 +18,8 @@ import Footer from "../layout/Footer";
 //Utils
 import { useMediaQuery } from "../utils/useMediaQuery";
 
-const NOTIFICATIONS_SERVER = "http://localhost:8080/message";
+const NOTIFICATIONS_SERVER =
+  "https://kluu-push-notifications.herokuapp.com/message";
 
 const Home: NextPage = () => {
   const isMd = useMediaQuery(768);
